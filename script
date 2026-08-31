@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
     // 1. Controle de Idioma Dinâmico (PT / EN)
     const translations = {
         pt: {

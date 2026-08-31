@@ -1,0 +1,178 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Controle de Idioma Dinâmico (PT / EN)
+    const translations = {
+        pt: {
+            meta_top: "Elevando o design centrado no ser humano com Inteligência Artificial",
+            nav_home: "Início",
+            nav_insights: "Insights",
+            nav_about: "Sobre",
+            hero_title: "PROJETE COM INTELIGÊNCIA,<br>NÃO COM ESFORÇO.",
+            hero_subtitle: "Utilize IA para criar experiências de usuário intuitivas e interfaces poderosas baseadas em dados sem esforço.",
+            scroll_hint: "deslize para explorar",
+            btn_start: "COMECE GRÁTIS",
+            badge_beta: "BETA",
+            feat_kicker: "CONHEÇA A AXON AI",
+            feat_title: "REVOLUCIONE SEU FLUXO DE TRABALHO",
+            feat_1_title: "Prototipagem Inteligente",
+            feat_1_desc: "Utilize IA para criar protótipos envolventes baseados em dados de usuários.",
+            feat_2_title: "Análise de Usabilidade",
+            feat_2_desc: "Usa IA para criar experiências e interfaces intuitivas e baseadas em dados.",
+            feat_3_title: "Insights de IA",
+            feat_3_desc: "Obtenha insights profundos a partir da interação e feedback dos usuários.",
+            feat_byline: "POR AXON AI LABS",
+            blog_title: "DESCUBRA A JORNADA DE DESIGN<br>CENTRADA NO USUÁRIO.",
+            blog_subtitle: "Mergulhe em uma coleção curada de insights baseados em dados e histórias de usuários, criados para elevar seu processo criativo.",
+            blog_featured_label: "ESTUDO DE CASO EM DESTAQUE:",
+            blog_featured_title: "REDESENHANDO PARA A EMPATIA: A INTERAÇÃO HUMANO-IA",
+            blog_featured_desc: "Como um único conceito centrado no usuário remodelou nossa filosofia de design, unindo minimalismo estrutural com inteligência emocional.",
+            btn_read_featured: "LER O ESTUDO DE CASO",
+            btn_load_more: "CARREGAR MAIS INSIGHTS",
+            footer_text: "Um blog para design centrado no ser humano | Axon Insights | Verão 2024"
+        },
+        en: {
+            meta_top: "Elevating human-centric design with Artificial Intelligence",
+            nav_home: "Home",
+            nav_insights: "Insights",
+            nav_about: "About",
+            hero_title: "DESIGN SMARTER,<br>NOT HARDER.",
+            hero_subtitle: "Leverage AI to create intuitive, data-driven user experiences and powerful interfaces effortlessly.",
+            scroll_hint: "scroll to explore",
+            btn_start: "START FOR FREE",
+            badge_beta: "BETA",
+            feat_kicker: "MEET AXON AI",
+            feat_title: "REVOLUTIONIZE YOUR WORKFLOW",
+            feat_1_title: "Intelligent Prototyping",
+            feat_1_desc: "Leverage AI to create engaging, user-data-driven prototypes.",
+            feat_2_title: "Usability Analysis",
+            feat_2_desc: "Uses AI to create intuitive, data-driven experiences and interfaces.",
+            feat_3_title: "AI Insights",
+            feat_3_desc: "Gain deep insights from user interaction and feedback.",
+            feat_byline: "BY AXON AI LABS",
+            blog_title: "DISCOVER THE USER-CENTRIC<br>DESIGN JOURNEY.",
+            blog_subtitle: "Dive into a curated collection of data-driven insights and user stories, crafted to elevate your creative process.",
+            blog_featured_label: "FEATURED CASE STUDY:",
+            blog_featured_title: "REDESIGNING FOR EMPATHY: THE HUMAN-AI INTERACTION",
+            blog_featured_desc: "How a single user-centered concept reshaped our design philosophy, merging structural minimalism with emotive intelligence.",
+            btn_read_featured: "READ THE FEATURED CASE",
+            btn_load_more: "LOAD MORE USER INSIGHTS",
+            footer_text: "A blog for human-centered design | Axon Insights | Summer 2024"
+        }
+    };
+
+    const blogData = {
+        pt: [
+            { title: "Estudo de Caso: Redesenhando para a Empatia", excerpt: "Como uma única entrevista com usuário remodelou nossa filosofia de design.", date: "18 DE ABRIL, 2024", team: "EQUIPE AXON", tag: "NOVO" },
+            { title: "Insights: O Poder do Feedback do Usuário", excerpt: "Aproveitando a voz da comunidade para excelência em design iterativo.", date: "18 DE ABRIL, 2024", team: "PESQUISA", tag: null },
+            { title: "Vozes do Design: Dra. Elara Vance em UI Ética", excerpt: "Sessão de Perguntas e Respostas sobre proteção à privacidade e bem-estar digital.", date: "18 DE ABRIL, 2024", team: "COMUNIDADE", tag: "ENTREVISTA" }
+        ],
+        en: [
+            { title: "Case Study: Redesigning for Empathy - A Personal Story", excerpt: "How a single user interview reshaped our design philosophy and approach.", date: "APRIL 18, 2024", team: "AXON TEAM", tag: "NEW" },
+            { title: "Insights: The Power of User Feedback", excerpt: "Leveraging community voices for iterative design excellence in real-time.", date: "APRIL 18, 2024", team: "RESEARCH TEAM", tag: null },
+            { title: "Voices of Design: Dr. Elara Vance on Ethical UI", excerpt: "Community Expert Q&A on protecting user privacy and digital well-being.", date: "APRIL 18, 2024", team: "COMMUNITY", tag: "INTERVIEW" }
+        ]
+    };
+
+    let currentLang = 'pt';
+    const langToggleBtn = document.getElementById('lang-toggle');
+
+    const renderBlogPosts = () => {
+        const gridContainer = document.getElementById('dynamic-posts-grid');
+        if (!gridContainer) return;
+
+        const postsHTML = blogData[currentLang].map((post) => {
+            const tagHTML = post.tag ? `<span class="post-tag">${post.tag}</span>` : '';
+            return `
+                <div class="post-card">
+                    <div class="card-icon"><i class="fa-regular fa-bookmark"></i></div>
+                    <h3>${post.title}</h3>
+                    <p>${post.excerpt}</p>
+                    <div class="post-meta">
+                        <span>${post.date} | ${post.team}</span>
+                        ${tagHTML}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        gridContainer.innerHTML = postsHTML;
+    };
+
+    const updateLanguage = (lang) => {
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+        const elements = document.querySelectorAll('[data-i18n]');
+        
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+
+        langToggleBtn.innerText = lang === 'pt' ? 'EN' : 'PT';
+        renderBlogPosts();
+    };
+
+    langToggleBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'pt' ? 'en' : 'pt';
+        updateLanguage(currentLang);
+    });
+
+    renderBlogPosts();
+
+    // 2. Comportamento do Header Flutuante ao Rolar (Mobile-First Scroll Reveal)
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 120) {
+            header.classList.add('visible-nav');
+        } else {
+            header.classList.remove('visible-nav');
+        }
+    });
+
+    // 3. Observer para Construção Progressiva e Perspectiva Ampliada no Scroll
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 4. Efeito Spotlight de Luz com Toque / Mouse nos Cards
+    document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.post-card, .feature-card, .featured-post');
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // 5. Suporte a Tema Escuro / Claro
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const icon = themeToggleBtn.querySelector('i');
+    
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        if (document.body.classList.contains('light-theme')) {
+            icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            icon.classList.replace('fa-sun', 'fa-moon');
+        }
+    });
+
+    // 6. Feedback Interativo de CTA
+    document.body.addEventListener('click', (e) => {
+        if(e.target.classList.contains('cta-btn')) {
+            e.preventDefault();
+            alert(currentLang === 'pt' ? 'Bem-vindo ao ecossistema Axon AI! Redirecionando...' : 'Welcome to the Axon AI ecosystem! Redirecting...');
+        }
+    });
+});

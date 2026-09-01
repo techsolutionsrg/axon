@@ -1,178 +1,210 @@
- document.addEventListener("DOMContentLoaded", () => {
-    // 1. Controle de Idioma Dinâmico (PT / EN)
-    const translations = {
-        pt: {
-            meta_top: "Elevando o design centrado no ser humano com Inteligência Artificial",
-            nav_home: "Início",
-            nav_insights: "Insights",
-            nav_about: "Sobre",
-            hero_title: "PROJETE COM INTELIGÊNCIA,<br>NÃO COM ESFORÇO.",
-            hero_subtitle: "Utilize IA para criar experiências de usuário intuitivas e interfaces poderosas baseadas em dados sem esforço.",
-            scroll_hint: "deslize para explorar",
-            btn_start: "COMECE GRÁTIS",
-            badge_beta: "BETA",
-            feat_kicker: "CONHEÇA A AXON AI",
-            feat_title: "REVOLUCIONE SEU FLUXO DE TRABALHO",
-            feat_1_title: "Prototipagem Inteligente",
-            feat_1_desc: "Utilize IA para criar protótipos envolventes baseados em dados de usuários.",
-            feat_2_title: "Análise de Usabilidade",
-            feat_2_desc: "Usa IA para criar experiências e interfaces intuitivas e baseadas em dados.",
-            feat_3_title: "Insights de IA",
-            feat_3_desc: "Obtenha insights profundos a partir da interação e feedback dos usuários.",
-            feat_byline: "POR AXON AI LABS",
-            blog_title: "DESCUBRA A JORNADA DE DESIGN<br>CENTRADA NO USUÁRIO.",
-            blog_subtitle: "Mergulhe em uma coleção curada de insights baseados em dados e histórias de usuários, criados para elevar seu processo criativo.",
-            blog_featured_label: "ESTUDO DE CASO EM DESTAQUE:",
-            blog_featured_title: "REDESENHANDO PARA A EMPATIA: A INTERAÇÃO HUMANO-IA",
-            blog_featured_desc: "Como um único conceito centrado no usuário remodelou nossa filosofia de design, unindo minimalismo estrutural com inteligência emocional.",
-            btn_read_featured: "LER O ESTUDO DE CASO",
-            btn_load_more: "CARREGAR MAIS INSIGHTS",
-            footer_text: "Um blog para design centrado no ser humano | Axon Insights | Verão 2024"
-        },
-        en: {
-            meta_top: "Elevating human-centric design with Artificial Intelligence",
-            nav_home: "Home",
-            nav_insights: "Insights",
-            nav_about: "About",
-            hero_title: "DESIGN SMARTER,<br>NOT HARDER.",
-            hero_subtitle: "Leverage AI to create intuitive, data-driven user experiences and powerful interfaces effortlessly.",
-            scroll_hint: "scroll to explore",
-            btn_start: "START FOR FREE",
-            badge_beta: "BETA",
-            feat_kicker: "MEET AXON AI",
-            feat_title: "REVOLUTIONIZE YOUR WORKFLOW",
-            feat_1_title: "Intelligent Prototyping",
-            feat_1_desc: "Leverage AI to create engaging, user-data-driven prototypes.",
-            feat_2_title: "Usability Analysis",
-            feat_2_desc: "Uses AI to create intuitive, data-driven experiences and interfaces.",
-            feat_3_title: "AI Insights",
-            feat_3_desc: "Gain deep insights from user interaction and feedback.",
-            feat_byline: "BY AXON AI LABS",
-            blog_title: "DISCOVER THE USER-CENTRIC<br>DESIGN JOURNEY.",
-            blog_subtitle: "Dive into a curated collection of data-driven insights and user stories, crafted to elevate your creative process.",
-            blog_featured_label: "FEATURED CASE STUDY:",
-            blog_featured_title: "REDESIGNING FOR EMPATHY: THE HUMAN-AI INTERACTION",
-            blog_featured_desc: "How a single user-centered concept reshaped our design philosophy, merging structural minimalism with emotive intelligence.",
-            btn_read_featured: "READ THE FEATURED CASE",
-            btn_load_more: "LOAD MORE USER INSIGHTS",
-            footer_text: "A blog for human-centered design | Axon Insights | Summer 2024"
-        }
-    };
-
-    const blogData = {
-        pt: [
-            { title: "Estudo de Caso: Redesenhando para a Empatia", excerpt: "Como uma única entrevista com usuário remodelou nossa filosofia de design.", date: "18 DE ABRIL, 2024", team: "EQUIPE AXON", tag: "NOVO" },
-            { title: "Insights: O Poder do Feedback do Usuário", excerpt: "Aproveitando a voz da comunidade para excelência em design iterativo.", date: "18 DE ABRIL, 2024", team: "PESQUISA", tag: null },
-            { title: "Vozes do Design: Dra. Elara Vance em UI Ética", excerpt: "Sessão de Perguntas e Respostas sobre proteção à privacidade e bem-estar digital.", date: "18 DE ABRIL, 2024", team: "COMUNIDADE", tag: "ENTREVISTA" }
-        ],
-        en: [
-            { title: "Case Study: Redesigning for Empathy - A Personal Story", excerpt: "How a single user interview reshaped our design philosophy and approach.", date: "APRIL 18, 2024", team: "AXON TEAM", tag: "NEW" },
-            { title: "Insights: The Power of User Feedback", excerpt: "Leveraging community voices for iterative design excellence in real-time.", date: "APRIL 18, 2024", team: "RESEARCH TEAM", tag: null },
-            { title: "Voices of Design: Dr. Elara Vance on Ethical UI", excerpt: "Community Expert Q&A on protecting user privacy and digital well-being.", date: "APRIL 18, 2024", team: "COMMUNITY", tag: "INTERVIEW" }
-        ]
-    };
-
-    let currentLang = 'pt';
-    const langToggleBtn = document.getElementById('lang-toggle');
-
-    const renderBlogPosts = () => {
-        const gridContainer = document.getElementById('dynamic-posts-grid');
-        if (!gridContainer) return;
-
-        const postsHTML = blogData[currentLang].map((post) => {
-            const tagHTML = post.tag ? `<span class="post-tag">${post.tag}</span>` : '';
-            return `
-                <div class="post-card">
-                    <div class="card-icon"><i class="fa-regular fa-bookmark"></i></div>
-                    <h3>${post.title}</h3>
-                    <p>${post.excerpt}</p>
-                    <div class="post-meta">
-                        <span>${post.date} | ${post.team}</span>
-                        ${tagHTML}
-                    </div>
-                </div>
-            `;
-        }).join('');
-        gridContainer.innerHTML = postsHTML;
-    };
-
-    const updateLanguage = (lang) => {
-        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
-        const elements = document.querySelectorAll('[data-i18n]');
-        
-        elements.forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang][key]) {
-                el.innerHTML = translations[lang][key];
-            }
-        });
-
-        langToggleBtn.innerText = lang === 'pt' ? 'EN' : 'PT';
-        renderBlogPosts();
-    };
-
-    langToggleBtn.addEventListener('click', () => {
-        currentLang = currentLang === 'pt' ? 'en' : 'pt';
-        updateLanguage(currentLang);
-    });
-
-    renderBlogPosts();
-
-    // 2. Comportamento do Header Flutuante ao Rolar (Mobile-First Scroll Reveal)
-    const header = document.getElementById('site-header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 120) {
-            header.classList.add('visible-nav');
-        } else {
-            header.classList.remove('visible-nav');
-        }
-    });
-
-    // 3. Observer para Construção Progressiva e Perspectiva Ampliada no Scroll
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.15
-    });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-
-    // 4. Efeito Spotlight de Luz com Toque / Mouse nos Cards
-    document.addEventListener('mousemove', (e) => {
-        const cards = document.querySelectorAll('.post-card, .feature-card, .featured-post');
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        });
-    });
-
-    // 5. Suporte a Tema Escuro / Claro
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const icon = themeToggleBtn.querySelector('i');
-    
-    themeToggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        if (document.body.classList.contains('light-theme')) {
-            icon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            icon.classList.replace('fa-sun', 'fa-moon');
-        }
-    });
-
-    // 6. Feedback Interativo de CTA
-    document.body.addEventListener('click', (e) => {
-        if(e.target.classList.contains('cta-btn')) {
-            e.preventDefault();
-            alert(currentLang === 'pt' ? 'Bem-vindo ao ecossistema Axon AI! Redirecionando...' : 'Welcome to the Axon AI ecosystem! Redirecting...');
-        }
-    });
+// Dados Mockados de Notícias
+const newsData = [
+{
+id: 1,
+category: "Agentes",
+tag: "Autonomia",
+title: "Quando a arquitetura neural decide parar de esperar por comandos humanos",
+excerpt: "Existe um limiar onde redes autônomas iniciam sub-rotinas de otimização sem supervisão. Pesquisadores discutem os novos protocolos de segurança e alinhamento.",
+author: "Tair Al-Mansoor",
+date: "Hoje, 14:20",
+readTime: "4 min",
+image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80",
+fullText: "A transição de modelos assistivos para agentes autônomos de alta densidade representa o maior salto desde a criação dos transformers. À medida que sistemas em nuvem ganham autonomia para alocar computação e reescrever partes de seus pesos em tempo de execução, os comitês de governança global correm para estabelecer barreiras éticas invioláveis. 'Não estamos mais apenas programando ferramentas; estamos gerando ecossistemas cognitivos', afirma Tair Al-Mansoor no novo relatório do MIT."
+},
+{
+id: 2,
+category: "Hardware",
+tag: "Silício",
+title: "Beneath the soil, seeds whisper about another day: O silício fotônico revoluciona o treino de LLMs",
+excerpt: "Chips baseados em luz reduzem o consumo energético em 94% em data centers de grande escala, abrindo caminho para o treinamento local de modelos gigantes.",
+author: "Sora Sterling",
+date: "Ontem",
+readTime: "5 min",
+image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+fullText: "A dependência de silício eletrônico tradicional tem sido o gargalhou energético da inteligência artificial generativa. Com o avanço dos processadores fotônicos baseados em guias de onda de silício, fótons substituem elétrons para operações matriciais. O resultado é um ganho exponencial de velocidade com uma fração minúscula de dissipação térmica."
+},
+{
+id: 3,
+category: "Ética",
+tag: "Sociedade",
+title: "Stories the stones keep to themselves: A memória persistente em agentes de longo prazo",
+excerpt: "Como bases vetoriais de longo prazo estão transformando assistentes digitais em companheiros com continuidade histórica e personalidade evolutiva.",
+author: "Nira Varma",
+date: "12 de Junho",
+readTime: "6 min",
+image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+fullText: "A ausência de memória consistente entre sessões sempre foi a principal barreira para uma conexão genuína entre humanos e agentes de IA. Com a introdução de estruturas de memória episódica hierárquica baseadas em grafos de conhecimento dinâmicos, os sistemas agora lembram de preferências sutilezas contextuais acumuladas ao longo de anos."
+},
+{
+id: 4,
+category: "Cognição",
+tag: "Interface",
+title: "When the mountains breathe at first dawn: Interfaces neurais de baixa latência",
+excerpt: "Testes clínicos com sensores sub-10ms demonstram controle fluido de ambientes multimodais apenas com intenção focada.",
+author: "Lior Vance",
+date: "10 de Junho",
+readTime: "3 min",
+image: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=800&q=80",
+fullText: "A fusão entre biometria vestível avançada e decodificação cortical em tempo real atingiu um patamar comercial inédito. Usuários conseguem navegar por fluxos complexos de informação sem o uso de telas físicas, redefinindo o conceito de computação ambiente."
+}
+];
+// Flash News Mockadas
+const flashNewsData = [
+{ title: "OpenAI lança protocolo de verificação autônoma para agentes", time: "Há 12 min" },
+{ title: "Anthropic reporta avanços significativos em interpretabilidade mecânica", time: "Há 35 min" },
+{ title: "União Europeia aprova diretrizes flexíveis para open-source AI", time: "Há 1 hora" },
+{ title: "Google DeepMind revela arquitetura multimodal unificada v4", time: "Há 3 horas" },
+{ title: "Novo chip quântico acelera inferência de LLM em 400%", time: "Há 5 horas" }
+];
+// Renderizar Feed de Notícias
+function renderNews(filter = 'all') {
+const feed = document.getElementById('newsFeed');
+if (!feed) return;
+feed.innerHTML = '';
+const filtered = filter === 'all' ? newsData : newsData.filter(item => item.category.toLowerCase() === filter);
+filtered.forEach(item => {
+const articleCard = document.createElement('div');
+articleCard.className = "bg-[#0a1d12] border border-emerald-900/50 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300 flex flex-col md:flex-row group fade-in";
+articleCard.innerHTML = <div class="md:w-5/12 h-56 md:h-auto relative overflow-hidden"> <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"> <span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#05120a]/80 backdrop-blur-md text-emerald-400 font-space text-[10px] uppercase tracking-wider border border-emerald-500/30">${item.category}</span> </div> <div class="md:w-7/12 p-6 flex flex-col justify-between space-y-4"> <div class="space-y-2"> <div class="flex items-center justify-between text-xs text-slate-400 font-space"> <span>${item.date}</span> <span><i class="fa-regular fa-clock mr-1"></i> ${item.readTime}</span> </div> <h4 onclick="openArticleById(${item.id})" class="font-syne text-xl font-bold text-white group-hover:text-emerald-400 transition-colors cursor-pointer leading-snug"> ${item.title} </h4> <p class="text-slate-300 text-sm font-light line-clamp-2"> ${item.excerpt} </p> </div> <div class="flex items-center justify-between pt-4 border-t border-emerald-900/40"> <span class="text-xs font-space text-slate-400">Por <strong class="text-white">${item.author}</strong></span> <button onclick="openArticleById(${item.id})" class="text-emerald-400 hover:text-emerald-300 font-space text-xs font-bold uppercase tracking-wider flex items-center gap-1"> Ler Completo <i class="fa-solid fa-arrow-right text-[10px]"></i> </button> </div> </div>;
+feed.appendChild(articleCard);
+});
+['all', 'agents', 'hardware'].forEach(f => {
+const btn = document.getElementById(btn-${f});
+if (btn) {
+if (f === filter) {
+btn.className = "px-3 py-1 rounded-full bg-emerald-500 text-black font-space text-xs font-bold transition-all";
+} else {
+btn.className = "px-3 py-1 rounded-full bg-[#0a1d12] border border-emerald-900 text-slate-300 font-space text-xs hover:text-emerald-400 transition-all";
+}
+}
+});
+}
+// Renderizar Flash News
+function renderFlashNews() {
+const list = document.getElementById('flashNewsList');
+if (!list) return;
+list.innerHTML = '';
+flashNewsData.forEach(flash => {
+const item = document.createElement('div');
+item.className = "pb-3 border-b border-emerald-900/30 last:border-0 last:pb-0 cursor-pointer group";
+item.innerHTML = <span class="text-[10px] font-space text-emerald-400 block mb-1">${flash.time}</span> <h5 class="font-space text-xs sm:text-sm text-slate-200 group-hover:text-emerald-300 transition-colors leading-relaxed">${flash.title}</h5>;
+item.onclick = () => showToast("Carregando atualização flash...");
+list.appendChild(item);
+});
+}
+// Funções de UI e Modais
+function toggleMobileMenu() {
+const menu = document.getElementById('mobileMenu');
+const icon = document.getElementById('menuIcon');
+if (!menu) return;
+menu.classList.toggle('hidden');
+if(menu.classList.contains('hidden')) {
+if(icon) icon.className = "fa-solid fa-bars";
+} else {
+if(icon) icon.className = "fa-solid fa-xmark";
+}
+}
+function toggleSearchModal() {
+const modal = document.getElementById('searchModal');
+if (!modal) return;
+modal.classList.toggle('hidden');
+if(!modal.classList.contains('hidden')) {
+const input = document.getElementById('searchInput');
+if(input) input.focus();
+}
+}
+function handleSearch(query) {
+const resultsDiv = document.getElementById('searchResults');
+if (!resultsDiv) return;
+if(!query.trim()) {
+resultsDiv.innerHTML = '<p class="text-xs text-slate-500 font-space text-center py-4">Digite para buscar no Neural Horizon...</p>';
+return;
+}
+const filtered = newsData.filter(item => item.title.toLowerCase().includes(query.toLowerCase()) || item.excerpt.toLowerCase().includes(query.toLowerCase()));
+resultsDiv.innerHTML = '';
+if(filtered.length === 0) {
+resultsDiv.innerHTML = '<p class="text-xs text-slate-400 font-space text-center py-4">Nenhum artigo encontrado para sua busca.</p>';
+return;
+}
+filtered.forEach(item => {
+const resItem = document.createElement('div');
+resItem.className = "p-3 rounded-xl bg-[#05120a] border border-emerald-900/50 hover:border-emerald-500 cursor-pointer transition-colors";
+resItem.innerHTML = <span class="text-[10px] font-space text-emerald-400 uppercase">${item.category}</span> <h6 class="font-space text-sm font-semibold text-white mt-0.5">${item.title}</h6>;
+resItem.onclick = () => {
+toggleSearchModal();
+openArticleById(item.id);
+};
+resultsDiv.appendChild(resItem);
+});
+}
+function openArticleById(id) {
+const article = newsData.find(i => i.id === id);
+if(!article) return;
+const catEl = document.getElementById('modalCategory');
+const titleEl = document.getElementById('modalTitle');
+const authEl = document.getElementById('modalAuthor');
+const dateEl = document.getElementById('modalDate');
+const contentEl = document.getElementById('modalContent');
+const modalEl = document.getElementById('articleModal');
+if(catEl) catEl.innerText = article.category + ' • ' + article.tag;
+if(titleEl) titleEl.innerText = article.title;
+if(authEl) authEl.innerText = article.author;
+if(dateEl) dateEl.innerText = article.date;
+if(contentEl) {
+contentEl.innerHTML = <p class="text-base font-normal text-emerald-300 italic mb-4">${article.excerpt}</p> <p>${article.fullText}</p> <p class="mt-4">A evolução contínua dos sistemas neurais demonstra que a barreira entre software e cognição se dissolve a cada ciclo de treino. O Neural Horizon continuará acompanhando cada desdobramento crítico desta revolução tecnológica.</p>;
+}
+if(modalEl) modalEl.classList.remove('hidden');
+}
+function openArticleModal(title) {
+const article = newsData.find(i => i.title.includes(title)) || newsData[0];
+if(article) openArticleById(article.id);
+}
+function closeArticleModal() {
+const modal = document.getElementById('articleModal');
+if(modal) modal.classList.add('hidden');
+}
+function filterNews(cat) {
+renderNews(cat);
+}
+function toggleFollow(btn) {
+if(btn.innerText === 'Seguir') {
+btn.innerText = 'Seguindo';
+btn.className = "px-3 py-1 rounded-full bg-emerald-500 text-black font-space text-xs font-bold transition-all";
+showToast("Você agora segue este autor.");
+} else {
+btn.innerText = 'Seguir';
+btn.className = "px-3 py-1 rounded-full border border-emerald-500/30 text-emerald-400 font-space text-xs hover:bg-emerald-500 hover:text-black transition-all";
+showToast("Você deixou de seguir este autor.");
+}
+}
+function toggleAudioBriefing() {
+showToast("🎙️ Iniciando player do Briefing de Áudio Neural...");
+}
+function openSponsorModal() {
+showToast("Entre em contato com comercial@neuralhorizon.ai para parcerias.");
+}
+function handleNewsletter(e) {
+e.preventDefault();
+showToast("Inscrição confirmada! Bem-vindo ao Neural Horizon.");
+const emailInput = document.getElementById('newsletterEmail');
+if(emailInput) emailInput.value = '';
+}
+function shareArticle() {
+showToast("Link do artigo copiado para a área de transferência.");
+}
+function showToast(msg) {
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+if(!toast || !toastMsg) return;
+toastMsg.innerText = msg;
+toast.classList.remove('translate-y-20', 'opacity-0');
+setTimeout(() => {
+toast.classList.add('translate-y-20', 'opacity-0');
+}, 3500);
+}
+// Garantir execução segura após o carregamento do DOM
+document.addEventListener('DOMContentLoaded', () => {
+renderNews('all');
+renderFlashNews();
 });
